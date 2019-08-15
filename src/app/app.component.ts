@@ -1,20 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { PhotoService } from './photos/photo/photo.service';
+import { Photo } from './photos/photo/photo';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'alurapic';
-  photos = [
-    {
-        description: 'menina no trem com fantasma',
-        url: 'https://i.pinimg.com/originals/9a/61/e0/9a61e0715e1ab281c08b9aec48c6d3fe.jpg'
-    },
-    {
-        description: 'menina e totoro com guarda-chuva no pasto',
-        url: 'https://i2.wp.com/geekiss.xpg.com.br/wp-content/uploads/2017/05/geekisspinturas11.jpg?'
-    }    
-];    
+  name = 'flavio';
+  photos: Photo[] = [];
+
+  // estamos fazendo uma injecao de dependencia aqui
+  constructor(private photoService: PhotoService) {}
+  
+  /**
+   * Ao implementar a intercae OnInit
+   * precisamos implementar tbm o metodo OnInit
+   * Este metodo faz parte do ciclo de vida de um componente
+   * quando o component eh criado o metodo onInit
+   * eh executado logo apos sua cricao 
+   */
+  ngOnInit(): void {
+    this.photoService
+          .listFromUser(this.name)
+          // somente com o .subscribe eh realizado 
+          // o processamento do objeto da requiscao 
+          // com httpClient.get()
+          .subscribe(photos => this.photos = photos);
+  }
 }
