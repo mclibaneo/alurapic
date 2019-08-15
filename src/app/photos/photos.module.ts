@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PhotoComponent } from './photo/photo.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PhotoListComponent } from './photo-list/photo-list.component';
+import { PhotoFormComponent } from './photo-form/photo-form.component';
+import { CommonModule } from '@angular/common';
 
 /**
  * Modulo necessario para o componente funcionar
@@ -8,9 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
  * Importa o component HttpClient
  */
 @NgModule({
-    declarations: [ PhotoComponent ],
+    declarations: [ PhotoComponent, 
+                    PhotoListComponent, 
+                    PhotoFormComponent ],
     exports: [ PhotoComponent ],
-    imports: [ HttpClientModule ] // necessario para o uso do HttpClient
+    // necessario para o uso do HttpClient
+    // o commomModule eh onde estao as diretivas *ngFor, *ngIf...
+    imports: [ HttpClientModule, CommonModule ]
 })
 export class PhotosModule {
     /** 

@@ -1,0 +1,7 @@
+<!-- [DIRETIVA] O elemento ira se repetir para cada objeto presente na classe-->
+<ap-photo
+          *ngFor="let photo of photos"
+          [url]="photo.url"
+          [description]="photo.description"
+>
+</ap-photo>
