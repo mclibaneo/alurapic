@@ -1,2 +1,47 @@
-<ap-photos [photos]="photos"></ap-photos>
+<div class="text-center mt-3 mb-3">
+        <form>
+            <input
+                class="rounded"
+                type="search"
+                placeholder="search..."
+                autofocus                
+                (keyup) = "debounce.next($event.target.value)">
+        </form>
+    </div>
 
+<ap-photos [photos]="photos | filterByDescription: filter"></ap-photos>
+
+
+<!--
+    keyup = "filter = $event.target.value"
+     keyup eh um evento do js que indica 
+     que foi digitado algo no campo search
+
+     utilzamos (keyup) para indicar um event binding!   
+     no event binding os dados sao enviados do template
+     para o backend
+
+     qnd eh [keyup] ocorre um data binding, ou seja,
+     os dados estao indo do backend para o template
+
+     <ap-photos [photos]="photos | filterByDescription: filter"></ap-photos>
+
+     o pipe | eh um elemento que informa que photos sera 
+     passada para um filtro 'filterByDescription' com um
+     parametro filter (as busca em si)
+-->
+
+<ap-load-button 
+    (click)="load()"
+    [hasMore]="hasMore">
+</ap-load-button>
+
+<!--
+    Ou seja, a inbound property do botão fará 
+    um Data binding com o hasMore de photo-list.component.ts. 
+    Cada vez que clicarmos no botão, um load ("carregamento") 
+    será realizado, e então verificaremos se os dados chegaram. 
+    Caso positivo, significa que hasMore se mantém true. 
+    Caso contrário, e se tivermos um array vazio, 
+    é porque fomos além de sua capacidade.
+-->

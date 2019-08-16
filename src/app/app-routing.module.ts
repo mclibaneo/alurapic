@@ -3,10 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 import { PageNotFoundComponent } from './errors/page-not-found/page-not-found.component';
 import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
+import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
 
 
 const routes: Routes = [
-  { path: 'user/:userNameParam', component: PhotoListComponent },
+  { path: 'user/:userNameParam', 
+    component: PhotoListComponent,
+    resolve: {
+      photos: PhotoListResolver // indica para caregar o objeto photos ja na rota
+    }},
   { path: 'p/add', component: PhotoFormComponent  },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PhotoService } from '../photo/photo.service';
-import { Photo } from '../photo/photo';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
+import { Photo } from '../photo/photo';
+import { PhotoService } from '../photo/photo.service';
 
 @Component({
   selector: 'ap-photo-list',
@@ -9,12 +12,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./photo-list.component.css']
 })
 export class PhotoListComponent implements OnInit {
-  name = 'flavio';
+ 
   photos: Photo[] = [];
+  filter: string = '';
+  debounce: Subject<string> = new Subject<string>();
+  hasMore: boolean = true;
+  currentPageNumber: number = 1;
+  userName: string = '';
+
 
   // estamos fazendo uma injecao de dependencia aqui
-  constructor(private photoService: PhotoService,
-              private activedRoute: ActivatedRoute) {}
+  constructor(private activedRoute: ActivatedRoute,
+              private service: PhotoService) {}
   
   /**
    * Ao implementar a intercae OnInit
@@ -24,15 +33,50 @@ export class PhotoListComponent implements OnInit {
    * eh executado logo apos sua cricao 
    */
   ngOnInit(): void {
-    const userNameParam = this.activedRoute
+     this.userName = this.activedRoute
                                 .snapshot
                                 .params
-                                .userNameParam;
-    this.photoService
+                                .userNameParam;    
+      /*
+      this.photoService
           .listFromUser(userNameParam)
           // somente com o .subscribe eh realizado 
           // o processamento do objeto da requiscao 
           // com httpClient.get()
           .subscribe(photos => this.photos = photos);
+     */
+
+     // foi substituido por
+     this.photos = this.activedRoute.snapshot.data.photos;
+
+     /**
+      * A grande sacada eh que, 
+      * com esta alteracao chamada de Lettable operators no RxJS,
+      * por usarmos o debounceTime, 
+      * quando emitimos um valor no evento keyup, 
+      * todas as emissoes serao ignoradas, 
+      * sendo consideradas apos 300ms. 
+      * E eh isso que sera repassado ao subscribe().  
+      */    
+     this.debounce
+            .pipe(debounceTime(300))
+            .subscribe(filter => this.filter = filter);
+  }
+
+  /**
+   * executado ao final do ciclo de vida do componente
+   * ira parar de ouvir o filtro de busca
+   */
+  ngOnDestroy(): void {
+    this.debounce.unsubscribe();
+  }
+
+  load(): void{
+    this.service
+          .listFromUserPaginated(this.userName, ++this.currentPageNumber)
+          .subscribe(photos => {
+            this.photos = this.photos.concat(photos);
+            if (!photos.length) { this.hasMore = false; }
+          });
   }
 }
