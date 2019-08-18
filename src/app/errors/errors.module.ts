@@ -5,9 +5,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 
 @NgModule({
-  declarations: [PageNotFoundComponent],
-  imports: [
-    CommonModule
-  ]
+  declarations: [ PageNotFoundComponent ],
+  imports: [ CommonModule ]
 })
 export class ErrorsModule { }
