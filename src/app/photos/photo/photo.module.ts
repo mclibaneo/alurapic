@@ -6,6 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
     declarations: [ PhotoComponent ],
     exports: [ PhotoComponent ],
-    imports: [ CommonModule, HttpClientModule ]
+    imports: [ CommonModule, HttpClientModule ] //eh uma boa pratica importar CommonModule nos Modulos
 })
 export class PhotoModule {}

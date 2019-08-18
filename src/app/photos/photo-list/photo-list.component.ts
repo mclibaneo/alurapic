@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-
 import { Photo } from '../photo/photo';
 import { PhotoService } from '../photo/photo.service';
 
@@ -14,8 +11,7 @@ import { PhotoService } from '../photo/photo.service';
 export class PhotoListComponent implements OnInit {
  
   photos: Photo[] = [];
-  filter: string = '';
-  debounce: Subject<string> = new Subject<string>();
+  filter: string = '';  
   hasMore: boolean = true;
   currentPageNumber: number = 1;
   userName: string = '';
@@ -57,24 +53,27 @@ export class PhotoListComponent implements OnInit {
       * todas as emissoes serao ignoradas, 
       * sendo consideradas apos 300ms. 
       * E eh isso que sera repassado ao subscribe().  
-      */    
+          
      this.debounce
             .pipe(debounceTime(300))
             .subscribe(filter => this.filter = filter);
+    */
   }
 
   /**
    * executado ao final do ciclo de vida do componente
    * ira parar de ouvir o filtro de busca
-   */
+   
   ngOnDestroy(): void {
     this.debounce.unsubscribe();
   }
+  */
 
   load(): void{
     this.service
           .listFromUserPaginated(this.userName, ++this.currentPageNumber)
           .subscribe(photos => {
+            this.filter = '';
             this.photos = this.photos.concat(photos);
             if (!photos.length) { this.hasMore = false; }
           });
