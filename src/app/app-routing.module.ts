@@ -4,10 +4,12 @@ import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 import { PageNotFoundComponent } from './errors/page-not-found/page-not-found.component';
 import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
+import { SignInComponent } from './home/auth/signin.component';
 
 
 const routes: Routes = [
-  { path: 'user/:userNameParam', 
+  { path: '', component: SignInComponent }, // para index
+  { path: 'user/:userNameParam',
     component: PhotoListComponent,
     resolve: {
       photos: PhotoListResolver // indica para caregar o objeto photos ja na rota
