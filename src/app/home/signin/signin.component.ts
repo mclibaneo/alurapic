@@ -16,7 +16,7 @@ export class SignInComponent implements OnInit {
      * Usando o ViewChild estamos manipulando o DOM diretamente,
      * o que nao eh uma boa pratica
      */
-    @ViewChild('userNameInput', {static: false}) userNameInput: ElementRef<HTMLInputElement>;
+    @ViewChild('userNameInput', {static: true}) userNameInput: ElementRef<HTMLInputElement>;
     loginForm: FormGroup; // indica o formulario q estamos trabalhando
 
     /**
@@ -33,6 +33,11 @@ export class SignInComponent implements OnInit {
             userName: ['', Validators.required], // propriedade do component formControlName
             password: ['', Validators.required],
         });
+
+        // para colocar o autofocus no input do formulario
+        // tslint:disable-next-line: no-unused-expression
+        this.platformService.isPlatformBrowser() &&
+            this.userNameInput.nativeElement.focus();
     }
 
     /**
@@ -56,6 +61,7 @@ export class SignInComponent implements OnInit {
                     err => {
                         console.log(err);
                         this.loginForm.reset();
+                        // tslint:disable-next-line: no-unused-expression
                         this.platformService.isPlatformBrowser() &&
                             this.userNameInput.nativeElement.focus(); // direciona o focus para elemento html
                         alert('Invalid username or password!');

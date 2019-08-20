@@ -7,7 +7,7 @@ const API_SERVER = 'http://localhost:3000';
 const API_URL_EXISTS = '/user/exists/';
 const API_URL_SIGNUP = '/user/signup/';
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class SignUpService {
     constructor(private httpClient: HttpClient) {}
 

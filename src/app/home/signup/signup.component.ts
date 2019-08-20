@@ -1,21 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { lowerCaseValidator } from 'src/app/shared/validators/lower-case.validator';
 import { UserNotTakenValidatorService } from './user-not-taken.validator.service';
 import { NewUser } from './newUser';
 import { SignUpService } from './signup.service';
 import { Router } from '@angular/router';
+import { PlatformService } from 'src/app/core/platform-detector/platform-detector.service';
 
 @Component({
     // selector: 'ap-signup', n eh declarado pois n utilizamos em outro lugar
-    templateUrl: './signup.component.html'
+    templateUrl: './signup.component.html',
+    providers: [UserNotTakenValidatorService]
 })
 export class SignUpComponent implements OnInit {
+    
+    @ViewChild('emailInput', {static: true}) emailInput: ElementRef<HTMLInputElement>;
     signupForm: FormGroup;
+    
     constructor(private formBuilder: FormBuilder,
                 private userValidatorService: UserNotTakenValidatorService,
                 private signUpService: SignUpService,
-                private router: Router) {}
+                private router: Router,
+                private platformeService: PlatformService) {}
     ngOnInit(): void {
         this.signupForm = this.formBuilder.group({
             // o 1 param eh o valor padrao
@@ -55,6 +61,10 @@ export class SignUpComponent implements OnInit {
                 ]
             ]
         });
+
+        // tslint:disable-next-line: no-unused-expression
+        this.platformeService.isPlatformBrowser() &&
+            this.emailInput.nativeElement.focus();
     }
 
     signup() {

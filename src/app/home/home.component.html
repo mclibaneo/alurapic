@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mb-2">
+            <img class="img-fluid d-none d-sm-block"
+                src="/assets/img/home.jpg" alt="Welcome">
+        </div>
+        <div class="col-md-6">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+<!--
+    Template da pagina inicial!
+    Ha uma linha do CSS com duas colunas
+    Do lado direito fica a imagem e do lado esquerdo o conteudo
+    em <router-outlet> sera realizado um mapeamento para 
+        rotas filhas. Ou seja, ira carregar a pagina inteira, porem
+        qnd chegar na coluna da direita irar carregar o conteudo
+        a depender da rota
+
+-->

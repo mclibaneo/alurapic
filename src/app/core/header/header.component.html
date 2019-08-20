@@ -5,7 +5,7 @@
             <i class="fa fa-user-circle"></i>            
             <a class="ml-2">{{ user.name }}</a>
              <!-- <a class="ml-2">{{ user?.name }}</a> o usuario pode nao existir, por isso o uso do ? -->
-             <a (click)="logout()">(Logout)</a>
+             <a class="ml-1" (click)="logout()">(Logout)</a>
         </div>
         <ng-template #login>
             <span class="navbar-text" [routerLink]="['']"> Please, login! </span> <!--o routerLink redireciona o usuario para pagina de login, utilziamos este recurso para ganharmos performance e nao perdermos os estados da app-->

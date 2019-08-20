@@ -4,16 +4,17 @@ import { PhotoListComponent } from './photos/photo-list/photo-list.component';
 import { PageNotFoundComponent } from './errors/page-not-found/page-not-found.component';
 import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
-import { SignInComponent } from './home/signin/signin.component';
-import { AuthGuard } from './core/auth/auth.guard';
-import { SignUpComponent } from './home/signup/signup.component';
-
 
 const routes: Routes = [
-  { path: '', // para index-raiz
-    component: SignInComponent,
-    canActivate: [AuthGuard] }, // ativa a guarda de rota
-  { path: 'signup', component: SignUpComponent },
+  {
+    path: '',
+    pathMatch: 'full', // match integral com a url passsada
+    redirectTo: 'home'
+  },
+  {
+    path: 'home',
+    loadChildren: './home/home.module#HomeModule' // Assim, quando a rota 'home' for acessada, o Angular carregará o módulo HomeModule com todas as suas definições de rotas.
+  },
   { path: 'user/:userNameParam',
     component: PhotoListComponent,
     resolve: {
@@ -24,7 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})], // o usehash eh utilizado p/ maior compatibilidade entre navegadores
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
