@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { TokenService } from '../token/token.service';
+import { UserService } from '../user/user.service';
 
 const API_SERVER = 'http://localhost:3000';
 const API_URL = '/user/login';
@@ -12,8 +12,8 @@ const TOKEN_HEADER = 'x-access-token';
 })
 export class AuthService {
 
-  constructor(private httpClient: HttpClient, 
-              private tokenService: TokenService) { }
+  constructor(private httpClient: HttpClient,
+              private userService: UserService) { }
 
   /**
    * envia uma autenticacao com os param passados
@@ -28,7 +28,7 @@ export class AuthService {
                     // retorna o valor do token disponibilizado no cabecalho
                     res => {
                       const authToken = res.headers.get(TOKEN_HEADER);
-                      this.tokenService.setToken(authToken);
+                      this.userService.setToken(authToken);
                       console.log(`User ${userName} authenticated with token ${authToken}`);
                     }
                   ));

@@ -1,9 +1,15 @@
 <header class="fixed-top">
     <nav class="navbar navbar-light bg-white">
         <a class="navbar-brand">ALURAPIC</a>
-        <div>
-            <i class="fa fa-user-circle"></i>
-            <a>Aqui deve entrar o username</a>
+        <div *ngIf="(user$ | async) as user; else login"> <!-- utilizando o pipe async subscrevemos um observable (user$) direto no template e jogamos o resultado na var user -->
+            <i class="fa fa-user-circle"></i>            
+            <a class="ml-2">{{ user.name }}</a>
+             <!-- <a class="ml-2">{{ user?.name }}</a> o usuario pode nao existir, por isso o uso do ? -->
+             <a (click)="logout()">(Logout)</a>
         </div>
+        <ng-template #login>
+            <span class="navbar-text" [routerLink]="['']"> Please, login! </span> <!--o routerLink redireciona o usuario para pagina de login, utilziamos este recurso para ganharmos performance e nao perdermos os estados da app-->
+        </ng-template>
+        
     </nav>
 </header>

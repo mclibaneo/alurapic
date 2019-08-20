@@ -5,10 +5,13 @@ import { PageNotFoundComponent } from './errors/page-not-found/page-not-found.co
 import { PhotoFormComponent } from './photos/photo-form/photo-form.component';
 import { PhotoListResolver } from './photos/photo-list/photo-list.resolver';
 import { SignInComponent } from './home/auth/signin.component';
+import { AuthGuard } from './core/auth/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', component: SignInComponent }, // para index
+  { path: '', // para index-raiz
+    component: SignInComponent,
+    canActivate: [AuthGuard] }, // ativa a guarda de rota
   { path: 'user/:userNameParam',
     component: PhotoListComponent,
     resolve: {
