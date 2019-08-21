@@ -1,1 +1,57 @@
-<p>photo-form works!</p>
+<div class="container">
+    <form class="row" (submit)="upload()" [formGroup]="photoForm" >
+      
+        <div class="col-md-6 text-center">
+            <input 
+                type="file" 
+                accept="image/*"
+                formControlName="file"
+                (change)="file=$event.target.files[0]"> 
+                <!--accept="image/*" para aceitar somente imagens-->
+                <!--(change)="file=$event.target.files[0]" toda vez que o input file sofe mudanca dispara o evento-->
+                <!--$event.target.files[0]" $event eh o evento do input, target eh o proprio input e files[0] pega o primeiro arquivo do array de arquivos-->
+            <ap-vmessage
+                *ngIf="photoForm.get('file').errors?.required"
+                text="File is required!">
+            </ap-vmessage>
+         </div>
+  
+        <div class="col-md-6">
+        <div class="form-group">
+            <textarea 
+                class="form-control form-control-sm" 
+                placeholder="photo description"
+                formControlName="description"
+                #descriptionInput>
+            </textarea>
+            <ap-vmessage
+                *ngIf="photoForm.get('description').errors?.required"
+                text="Description is required!">
+            </ap-vmessage>
+            <ap-vmessage
+                *ngIf="photoForm.get('description').errors?.maxlength"
+                text="Description maximun is 300 caracters">
+            </ap-vmessage>
+        </div>
+  
+        <div class="form-group">
+            <label class="text-muted">
+                Allow comments
+            <input 
+                type="checkbox" 
+                value="false"
+                formControlName="allowComments">
+          </label>
+        </div>
+  
+        <button  
+            type="submit" 
+            class="btn btn-primary btn-block"
+            [disabled]="photoForm.invalid">
+          Upload
+        </button>
+  
+        <a class="btn btn-secondary btn-block">Cancel</a>
+      </div>
+    </form>
+  </div>

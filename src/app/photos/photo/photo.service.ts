@@ -5,12 +5,11 @@ import { Photo } from './photo';
 
 const API_SERVER = 'http://localhost:3000/';
 const API_ENDPOINT = '/photos';
+const API_UPLOAD_PHOTO = 'photos/upload';
 
 // o Injectable do tipo root indica que nosso service
 // esta no escopo raiz, qlqr componente pode usa-lo
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PhotoService {
 
     // o httpClient para funcionar depende do
@@ -30,5 +29,13 @@ export class PhotoService {
         const params = new HttpParams().append('page', page.toString());
         return this.httpClient
                         .get<Photo[]>(API_SERVER + userName + API_ENDPOINT , { params });
+    }
+
+    uploadPhotoFile(description: string, allowComments: boolean, file: File) {
+        const formData = new FormData();
+        formData.append('description', description);
+        formData.append('allowComments', allowComments ? 'true' : 'false');
+        formData.append('imageFile', file); // conforme exigido pelo backend da API
+        return this.httpClient.post(API_SERVER + API_UPLOAD_PHOTO, formData);
     }
 }
