@@ -13,6 +13,7 @@ export class PhotoFormComponent implements OnInit {
 
   photoForm: FormGroup;
   file: File; // para obter valores binarios do arquivo de foto 
+  preview: string;
 
   @ViewChild('descriptionInput', {static: true}) descriptionInput: ElementRef<HTMLElement>;
 
@@ -31,6 +32,13 @@ export class PhotoFormComponent implements OnInit {
     // tslint:disable-next-line: no-unused-expression
     this.platformService.isPlatformBrowser() &&
       this.descriptionInput.nativeElement.focus();
+  }
+
+  handleFile(file: File) {
+    this.file = file;
+    const fileReader = new FileReader();
+    fileReader.onload = (event: any) => this.preview = event.target.result;
+    fileReader.readAsDataURL(file);
   }
 
   upload() {

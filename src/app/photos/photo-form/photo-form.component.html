@@ -2,18 +2,34 @@
     <form class="row" (submit)="upload()" [formGroup]="photoForm" >
       
         <div class="col-md-6 text-center">
-            <input 
-                type="file" 
-                accept="image/*"
-                formControlName="file"
-                (change)="file=$event.target.files[0]"> 
-                <!--accept="image/*" para aceitar somente imagens-->
-                <!--(change)="file=$event.target.files[0]" toda vez que o input file sofe mudanca dispara o evento-->
-                <!--$event.target.files[0]" $event eh o evento do input, target eh o proprio input e files[0] pega o primeiro arquivo do array de arquivos-->
-            <ap-vmessage
-                *ngIf="photoForm.get('file').errors?.required"
-                text="File is required!">
-            </ap-vmessage>
+            <div class="form-group" *ngIf="!preview; else showPreview">
+                <button 
+                    immediateClick
+                    type="button" 
+                    class="btn btn-primary"                    
+                    (click)="fileInput.click()">
+                    <i class="fa fa-image fa-4x align-middle"></i>
+                </button>
+                <input 
+                    hidden
+                    type="file" 
+                    accept="image/*"
+                    formControlName="file"
+                    (change)="handleFile($event.target.files[0])"
+                    #fileInput> 
+                    <!--accept="image/*" para aceitar somente imagens-->
+                    <!--(change)="file=$event.target.files[0]" toda vez que o input file sofe mudanca dispara o evento-->
+                    <!--$event.target.files[0]" $event eh o evento do input, target eh o proprio input e files[0] pega o primeiro arquivo do array de arquivos-->
+                    <!--"handleFile($event.target.files[0])" passa para um metodo que transforma a imagem em base64-->
+                <ap-vmessage
+                    *ngIf="photoForm.get('file').errors?.required"
+                    text="File is required!">
+                </ap-vmessage>
+            </div>
+            <ng-template #showPreview>
+                <ap-photo [url]="preview" title="Preview"></ap-photo>
+            </ng-template>
+            
          </div>
   
         <div class="col-md-6">
