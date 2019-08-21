@@ -3,6 +3,7 @@ import { PhotoModule } from './photo/photo.module';
 import { PhotoFormModule } from './photo-form/photo-form.module';
 import { PhotoListModule } from './photo-list/photo-list.module';
 import { VMessageComponent } from '../shared/components/vmessage/vmessage.component';
+import { PhotoDetailsModule } from './photo-details/photo-details.module';
 
 
 
@@ -17,7 +18,8 @@ import { VMessageComponent } from '../shared/components/vmessage/vmessage.compon
     imports: [
                 PhotoModule,
                 PhotoFormModule,
-                PhotoListModule                
+                PhotoListModule ,
+                PhotoDetailsModule              
             ]
 })
 export class PhotosModule {
