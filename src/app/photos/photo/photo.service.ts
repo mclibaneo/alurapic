@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Photo } from './photo';
 import { Observable } from 'rxjs';
+import { PhotoComments } from './photo-comments';
 
 
 const API_SERVER = 'http://localhost:3000/';
 const API_ENDPOINT = '/photos';
 const API_GET_PHOTO = 'photos/';
+const API_GET_COMMENTS = '/comments';
 const API_UPLOAD_PHOTO = 'photos/upload';
 
 // o Injectable do tipo root indica que nosso service
@@ -39,8 +41,13 @@ export class PhotoService {
         formData.append('imageFile', file); // conforme exigido pelo backend da API
         return this.httpClient.post(API_SERVER + API_UPLOAD_PHOTO, formData);
     }
-    findById(id: string): Observable<Photo> {
-        return this.httpClient.get<Photo>(API_SERVER + API_GET_PHOTO + id);
+    findById(photoId: number): Observable<Photo> {
+        return this.httpClient.get<Photo>(API_SERVER + API_GET_PHOTO + photoId);
+    }
+
+    // retorna um array de comentarios
+    getComments(photoId: number) {
+        return this.httpClient.get<PhotoComments[]>(API_SERVER + API_GET_PHOTO + photoId + API_GET_COMMENTS );
     }
 
 }
