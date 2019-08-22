@@ -50,4 +50,7 @@ export class PhotoService {
         return this.httpClient.get<PhotoComments[]>(API_SERVER + API_GET_PHOTO + photoId + API_GET_COMMENTS );
     }
 
+    addComment(photoId: number, commentText: string) {
+        return this.httpClient.post(API_SERVER + API_GET_PHOTO + photoId + API_GET_COMMENTS, {commentText});
+    }
 }

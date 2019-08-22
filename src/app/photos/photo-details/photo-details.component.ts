@@ -9,13 +9,15 @@ import { PhotoComments } from '../photo/photo-comments';
     templateUrl: './photo-details.component.html'
 })
 export class PhotoDetailsComponent implements OnInit {
+    photoId: number;
     photo$ = new Observable<Photo>();
     comments$ = new Observable<PhotoComments[]>();
+    
     constructor(private rota: ActivatedRoute,
                 private photoService: PhotoService) {}
+    
     ngOnInit(): void {
-        const id = this.rota.snapshot.params.photoID;
-        this.photo$ = this.photoService.findById(id);
-        this.comments$ = this.photoService.getComments(id);
+        this.photoId = this.rota.snapshot.params.photoID;
+        this.photo$ = this.photoService.findById(this.photoId);
     }
 }

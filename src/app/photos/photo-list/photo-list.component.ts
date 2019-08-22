@@ -28,7 +28,7 @@ export class PhotoListComponent implements OnInit {
    * quando o component eh criado o metodo onInit
    * eh executado logo apos sua cricao 
    */
-  ngOnInit(): void {
+  ngOnInit(): void {    
      this.userName = this.activedRoute
                                 .snapshot
                                 .params
@@ -43,7 +43,12 @@ export class PhotoListComponent implements OnInit {
      */
 
      // foi substituido por
-     this.photos = this.activedRoute.snapshot.data.photos;
+     // this.photos = this.activedRoute.snapshot.data.photos;
+     // para mudar a rota qnd usuario clica no botao voltar do navegador
+     this.activedRoute.params.subscribe(params => {
+       this.userName = params.userName;
+       this.photos = this.activedRoute.snapshot.data['photos'];
+     });
 
      /**
       * A grande sacada eh que, 
