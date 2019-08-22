@@ -15,19 +15,20 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: './home/home.module#HomeModule' // Assim, quando a rota 'home' for acessada, o Angular carregará o módulo HomeModule com todas as suas definições de rotas.
+    loadChildren: './home/home.module#HomeModule'
+    // Assim, quando a rota 'home' for acessada, o Angular carregará o módulo HomeModule com todas as suas definições de rotas.
   },
   { path: 'user/:userNameParam',
     component: PhotoListComponent,
     resolve: {
       photos: PhotoListResolver // indica para caregar o objeto photos ja na rota
     }},
-  { 
-      path: 'p/:photoID', 
+  {
+      path: 'p/:photoID',
       component: PhotoDetailsComponent
   },
-  { 
-    path: 'p/add', 
+  {
+    path: 'photo/add',
     component: PhotoFormComponent,
     canActivate: [AuthGuard]  
   },

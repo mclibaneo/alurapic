@@ -6,10 +6,20 @@ import { PhotoModule } from '../photo/photo.module';
 import { RouterModule } from '@angular/router';
 import { PhotoCommentsComponent } from './photo-comments/photo-comments.component';
 import { VMessageModule } from 'src/app/shared/components/vmessage/vmessage.module';
+import { PhotoOwnerOnlyDirective } from './photo-owner-only/photo-owner-only.directive';
 
 @NgModule({
-    declarations: [PhotoDetailsComponent, PhotoCommentsComponent],
-    exports: [PhotoDetailsComponent, PhotoCommentsComponent],
+    declarations:
+        [
+            PhotoDetailsComponent,
+            PhotoCommentsComponent,
+            PhotoOwnerOnlyDirective
+        ],
+    exports:
+        [
+            PhotoDetailsComponent,
+            PhotoCommentsComponent
+        ],
     imports: [
                 CommonModule,
                 FormsModule,

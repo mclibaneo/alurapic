@@ -11,7 +11,15 @@
             <hr>
         </small>
 
-        <ap-photo-comments [photoId]="photo?.id"></ap-photo-comments>
+        <div class="text-left mb-4">
+            <i class="fa fa-comment-o fa-2x mr-2 ml-2"></i>{{ photo.comments }}
+            <i class="fa fa-trash-o fa-2x pull-right" [ownerPhoto]="photo"  (click)="removePhoto()"  photoOwnerOnly></i>
+        </div>
+
+        <ap-photo-comments [photoId]="photo?.id" *ngIf="photo.allowComments; else warning"></ap-photo-comments>
+        <ng-template #warning>
+            <p>Comments are disabled</p>
+        </ng-template>
         
         </div>
     </div>

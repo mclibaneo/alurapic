@@ -15,6 +15,7 @@ const API_UPLOAD_PHOTO = 'photos/upload';
 // esta no escopo raiz, qlqr componente pode usa-lo
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
+  
     // o httpClient para funcionar depende do
     // HttpClientModule listado no PhotoModule
     constructor(private httpClient: HttpClient) {}
@@ -52,5 +53,9 @@ export class PhotoService {
 
     addComment(photoId: number, commentText: string) {
         return this.httpClient.post(API_SERVER + API_GET_PHOTO + photoId + API_GET_COMMENTS, {commentText});
+    }
+
+    removePhoto(photoId: number) {
+        return this.httpClient.delete(API_SERVER + API_GET_PHOTO + photoId);
     }
 }

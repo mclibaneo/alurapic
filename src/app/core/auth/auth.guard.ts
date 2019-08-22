@@ -8,9 +8,11 @@ export class AuthGuard implements CanActivate {
     constructor(private userService: UserService, private router: Router) {}
     canActivate(route: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean|UrlTree> | Promise<boolean|UrlTree> {
-        if (this.userService.isLogged()) {
-            return true;
-        }
-        return false;
+       if (!this.userService.isLogged()) {
+           this.router.navigate(['']);
+           return false;
+       } else {
+           return true;
+       }
     }
 }
