@@ -22,19 +22,24 @@ const routes: Routes = [
     component: PhotoListComponent,
     resolve: {
       photos: PhotoListResolver // indica para caregar o objeto photos ja na rota
-    }},
+    },
+    data: { title: 'Feed'}
+  },
   {
       path: 'p/:photoID',
-      component: PhotoDetailsComponent
+      component: PhotoDetailsComponent,
+      data: { title: 'Photo details'}
   },
   {
     path: 'photo/add',
     component: PhotoFormComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { title: 'Photo Upload'}
   },
   {
     path: 'not-found',
-    component: PageNotFoundComponent
+    component: PageNotFoundComponent,
+    data: { title: 'Page Not Found'}
   },
   {
     path: '**',

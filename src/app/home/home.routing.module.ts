@@ -14,10 +14,12 @@ const routes: Routes = [
         {
             path: '', // ja eh a propria home
             component: SignInComponent,
+            data: { title: 'Sign In'}
         },
         {
             path: 'signup',
             component: SignUpComponent,
+            data: { title: 'Sign Up'}
         },
     ]
   }
