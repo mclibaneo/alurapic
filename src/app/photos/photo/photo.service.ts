@@ -43,7 +43,13 @@ export class PhotoService {
         formData.append('description', description);
         formData.append('allowComments', allowComments ? 'true' : 'false');
         formData.append('imageFile', file); // conforme exigido pelo backend da API
-        return this.httpClient.post(API_SERVER + '/' + API_UPLOAD_PHOTO, formData);
+        return this.httpClient
+                    .post(API_SERVER + '/' + API_UPLOAD_PHOTO, 
+                          formData,
+                          {
+                              observe: 'events',
+                              reportProgress: true
+                          }); // o ultimo param indica para o angular ficar observando o progesso do evento e nos informar
     }
     findById(photoId: number): Observable<Photo> {
         return this.httpClient.get<Photo>(API_SERVER + '/' + API_GET_PHOTO + photoId);

@@ -5,6 +5,8 @@ import { PhotoService } from '../photo/photo.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { UserService } from 'src/app/core/user/user.service';
+import { finalize } from 'rxjs/operators';
+import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 
 const MSUCCESS = 'Photo uploaded!';
 const MWARNING = 'Failed to upload!';
@@ -19,6 +21,7 @@ export class PhotoFormComponent implements OnInit {
   photoForm: FormGroup;
   file: File; // para obter valores binarios do arquivo de foto 
   preview: string;
+  percentDone = 0;
 
   @ViewChild('descriptionInput', {static: true}) descriptionInput: ElementRef<HTMLElement>;
 
@@ -56,14 +59,21 @@ export class PhotoFormComponent implements OnInit {
     console.log(this.file);
     this.photoService
           .uploadPhotoFile(description, allowComments, this.file)
+          .pipe(finalize(() => { // qnd processo finaliza navega para pagina do usuario
+            this.router.navigate(['user', this.userService.getUserName()]);
+          }))
           .subscribe(
-            () => {
-              this.alertService.succes(MSUCCESS, true);
-              this.router.navigate(['/user', this.userService.getUserName()]);
+            (event: HttpEvent<any>) => {
+              if (event.type === HttpEventType.UploadProgress) { // constante do indice que indica que o httpvent esta fazendo o upload
+                // realiza um calculo para mostrar a porcentagem no template
+                this.percentDone = Math.round(100 * event.loaded / event.total);
+              } else if (event instanceof HttpResponse) { // vem pra ca quando o porcentual foi concluido
+                this.alertService.succes(MSUCCESS, true);
+              }
             },
             err => {
-              this.alertService.warning(MWARNING);
               console.log(err);
+              this.alertService.danger(MWARNING, true);
             }
           );
   }
