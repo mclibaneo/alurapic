@@ -53,4 +53,14 @@ export class PhotoDetailsComponent implements OnInit {
                     }
                 );
     }
+
+    /**
+     * add um like na foto
+     * atualiza o observable photo$ p/ mostrar o valor atual de likes 
+     */
+    like(photoId: number) {
+        this.photoService.like(photoId).subscribe(liked => {
+            if (liked) { this.photo$ = this.photoService.findById(photoId); }
+        });
+    }
 }

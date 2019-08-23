@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'src/app/shared/components/card/card.module';
 import { PhotoModule } from '../photo/photo.module';
 import { SearchComponent } from './search/search.compenent';
-import { DarkenOnHoverModule } from 'src/app/shared/directives/darken-on-hover.module';
+import { DarkenOnHoverModule } from 'src/app/shared/directives/darken-on-hover/darken-on-hover.module';
 import { RouterModule } from '@angular/router';
 
 @NgModule({

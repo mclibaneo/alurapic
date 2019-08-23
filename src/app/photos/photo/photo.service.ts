@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Photo } from './photo';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { PhotoComments } from './photo-comments';
+import { map, catchError } from 'rxjs/operators';
 
 
 const API_SERVER = 'http://localhost:3000/';
 const API_ENDPOINT = '/photos';
 const API_GET_PHOTO = 'photos/';
 const API_GET_COMMENTS = '/comments';
+const API_LIKE_PHOTO = '/like';
 const API_UPLOAD_PHOTO = 'photos/upload';
 
 // o Injectable do tipo root indica que nosso service
 // esta no escopo raiz, qlqr componente pode usa-lo
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
-  
+
     // o httpClient para funcionar depende do
     // HttpClientModule listado no PhotoModule
     constructor(private httpClient: HttpClient) {}
@@ -58,4 +60,16 @@ export class PhotoService {
     removePhoto(photoId: number) {
         return this.httpClient.delete(API_SERVER + API_GET_PHOTO + photoId);
     }
+
+    like(photoId: number) {
+        return this.httpClient
+                    .post(API_SERVER + API_GET_PHOTO + photoId + API_LIKE_PHOTO, {}, { observe: 'response' })
+                    .pipe(map(res => true)) // retorna uma resposta do tipo Observable<boolean>
+                    .pipe(catchError(err => { // caso de erro pega este erro e devove
+                        return err.status === '304' ? of(false) : throwError(err);
+                        // se o error for de foto ja comentada, retorna um obj do tipo Observable<boolean> com valor falso of(false)
+                        // se for outro erro passa ele para frente com o throw
+                    }));
+    }
+
 }
