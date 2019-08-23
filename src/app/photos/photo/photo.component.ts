@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
-const API_ENDPOINT = 'http://localhost:3000/imgs/';
+const API_SERVER = environment.ApiUrl;
+const API_IMGS = '/imgs/';
 
 @Component({
     // tslint:disable-next-line: component-selector
@@ -17,7 +19,7 @@ export class PhotoComponent {
         if (url && url.startsWith('data')) {
             this._url = url;
         } else {
-            this._url = API_ENDPOINT + url; // modifica o caminho da url
+            this._url = API_SERVER + API_IMGS + url; // modifica o caminho da url
         }
     }
 
