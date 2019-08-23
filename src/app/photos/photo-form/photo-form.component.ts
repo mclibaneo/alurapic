@@ -3,6 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlatformService } from 'src/app/core/platform-detector/platform-detector.service';
 import { PhotoService } from '../photo/photo.service';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/shared/components/alert/alert.service';
+import { UserService } from 'src/app/core/user/user.service';
+
+const MSUCCESS = 'Photo uploaded!';
+const MWARNING = 'Failed to upload!';
 
 @Component({
   selector: 'ap-photo-form',
@@ -20,7 +25,9 @@ export class PhotoFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private photoService: PhotoService,
               private router: Router,
-              private platformService: PlatformService) { }
+              private platformService: PlatformService,
+              private alertService: AlertService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.photoForm = this.formBuilder.group(
@@ -49,7 +56,16 @@ export class PhotoFormComponent implements OnInit {
     console.log(this.file);
     this.photoService
           .uploadPhotoFile(description, allowComments, this.file)
-          .subscribe(() => this.router.navigate(['']));
+          .subscribe(
+            () => {
+              this.alertService.succes(MSUCCESS, true);
+              this.router.navigate(['/user', this.userService.getUserName()]);
+            },
+            err => {
+              this.alertService.warning(MWARNING);
+              console.log(err);
+            }
+          );
   }
 
 }

@@ -1,4 +1,5 @@
 <header class="fixed-top">
+    <div class="fixed-top text-center"><ap-alert></ap-alert></div>
     <nav class="navbar navbar-light bg-white">
         <a class="navbar-brand">ALURAPIC</a>
         <div *ngIf="(user$ | async) as user; else login"> <!-- utilizando o pipe async subscrevemos um observable (user$) direto no template e jogamos o resultado na var user -->
@@ -9,7 +10,6 @@
         </div>
         <ng-template #login>
             <span class="navbar-text" [routerLink]="['']"> Please, login! </span> <!--o routerLink redireciona o usuario para pagina de login, utilziamos este recurso para ganharmos performance e nao perdermos os estados da app-->
-        </ng-template>
-        
+        </ng-template>        
     </nav>
 </header>
