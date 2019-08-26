@@ -1,0 +1,11 @@
+<div [ngClass]="{'active-menu': isShown}"> <!--ira aplicar a classe 'active-menu' somente se a propriedade isShown for true-->
+    <div class="menu-bar">
+        <i 
+            class="fa fa-window-close" 
+            tabindex="0"
+            (click)="toggle()"
+            (keyup.space)="toggle()"></i>
+        <ng-content></ng-content><!--ira mostrar o conteudo do template filho (a qual o componente eh aplicado)-->        
+    </div>
+    <div class='overlay' (click)='toggle()'></div>
+</div>

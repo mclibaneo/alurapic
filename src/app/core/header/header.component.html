@@ -1,7 +1,16 @@
 <header class="fixed-top">
     <div class="fixed-top text-center"><ap-alert></ap-alert></div>
     <nav class="navbar navbar-light bg-white">
-        <a class="navbar-brand">ALURAPIC</a>
+            <a class="navbar-brand">
+                <i  class="fa fa-bars mr-2" tabindex="0" (click)="menu.toggle()" (keyup.space)="menu.toggle()"></i>
+                ALURAPIC
+            </a>
+            <ap-menu #menu> <!--eh a propriedade do component aqui, se torna o proprio componente qnd utlizado no <i> acima-->
+                <ul class="list-unstyled">
+                    <li><a [routerLink]="['photo','add']" showIfLogged>Upload</a></li>
+                    <li>Menu item 1</li>                   
+                </ul>
+            </ap-menu>
         <div *ngIf="(user$ | async) as user; else login"> <!-- utilizando o pipe async subscrevemos um observable (user$) direto no template e jogamos o resultado na var user -->
             <i class="fa fa-user-circle"></i>            
             <a class="ml-2">{{ user.name }}</a>
