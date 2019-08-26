@@ -44,7 +44,8 @@ export class PhotoDetailsComponent implements OnInit {
                     // callback de sucesso
                     () => {
                             this.alertService.succes(MSUCESS, true);
-                            this.router.navigate(['/user', this.userService.getUserName()]);
+                            this.router.navigate(['/user', this.userService.getUserName()], {replaceUrl: true});
+                            // o param {replaceUrl: true} remove a url da foto apagado do histprico da aplicacao
                     },
                     // calback de erro
                     err => {

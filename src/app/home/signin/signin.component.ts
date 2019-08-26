@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PlatformService } from 'src/app/core/platform-detector/platform-detector.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class SignInComponent implements OnInit {
      */
     @ViewChild('userNameInput', {static: true}) userNameInput: ElementRef<HTMLInputElement>;
     loginForm: FormGroup; // indica o formulario q estamos trabalhando
+    fromUrl: string // url enviada pelo queryParams
 
     /**
      *
@@ -27,12 +28,16 @@ export class SignInComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
                 private authService: AuthService,
                 private router: Router,
-                private platformService: PlatformService) {}
+                private platformService: PlatformService,
+                private activetedRoute: ActivatedRoute) {}
     ngOnInit(): void {
         this.loginForm = this.formBuilder.group({
             userName: ['', Validators.required], // propriedade do component formControlName
             password: ['', Validators.required],
         });
+
+        // obtem valor da queryParam ['fromUrl'] e a insere em this.fromUrl
+        this.activetedRoute.queryParams.subscribe(params => this.fromUrl = params.fromUrl);
 
         // para colocar o autofocus no input do formulario
         // tslint:disable-next-line: no-unused-expression
@@ -55,9 +60,13 @@ export class SignInComponent implements OnInit {
         this.authService
                 .authenticate(userName, password)
                 .subscribe(
-                    () => this.router
-                            .navigate(['user', userName]),
-                            // .navigateByUrl('/user/' + userName),
+                    () => {
+                        if (this.fromUrl) {
+                            this.router.navigateByUrl(this.fromUrl);
+                        } else {
+                            this.router.navigate(['user', userName]); // .navigateByUrl('/user/' + userName),
+                        }
+                    },
                     err => {
                         console.log(err);
                         this.loginForm.reset();

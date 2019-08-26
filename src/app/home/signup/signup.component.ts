@@ -63,7 +63,7 @@ export class SignUpComponent implements OnInit {
             ]
         },
         {
-            validator: userNamePasswordValidator
+            validator: userNamePasswordValidator // estamos utilizando um validador definido pela constante
         });
 
         // tslint:disable-next-line: no-unused-expression
