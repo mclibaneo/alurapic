@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  ApiUrl: 'http://endereco-api'
+  ApiUrl: 'http://endereco-api',
+  ServerLogUrl: 'http://enderco-server-log'
 };
